@@ -1,0 +1,30 @@
+<h2>Flights</h2>
+<ul>
+  <%@flights.each do |flight|%>
+  <li><%=flight.departure_airport.name%>--><%=flight.arrival_airport.name%><br>
+  Date:<%=flight.start%>    Duration:<%=flight.duration%>hrs</li>
+  <%end%>
+</ul>
+<%=form_with url:(flights_path), method: :get do |form|%>
+  <%=form.label :departure_airport_id, "Departure Airport:"%>
+  <%=form.collection_select :departure_airport_id,Airport.order(:name),:id,:name,selected:@options[:departure_airport]%>      
+  <%=form.label :arrival_airport_id, "Arrival Airport:"%>
+  <%=form.collection_select :arrival_airport_id,Airport.order(:name),:id,:name,selected:@options[:arrival_airport]%>      
+  <%=form.label :num_passengers, "Number of Passengers:"%>
+  <%=form.select :num_passengers, [1,2,3,4], selected:@options[:num_passengers]%>
+  <%=form.label :start, "Date:"%>
+  <%=form.select :start,Flight.order(:start).distinct.pluck(:start),selected:@options[:start]%>
+  <%=form.submit "Search"%>
+<%end%>
+
+<h2>Searched Flights</h2>
+<%if !@searched_flights.nil?%>
+  <%=form_with url:new_booking_path, method: :get do |form|%>
+    <%=form.hidden_field :num_passengers, value: @options[:num_passengers]%>
+    <%=form.collection_radio_buttons :flight_id, @searched_flights, :id,->(flight){"#{flight.departure_airport.name}-->#{flight.arrival_airport.name}(#{flight.start})"} do |b| %>
+      <%= b.label { b.radio_button + b.text } %><br>
+    <%end%>
+    <br>
+    <%=form.submit "Book flight"%>
+  <%end%>
+<%end%>

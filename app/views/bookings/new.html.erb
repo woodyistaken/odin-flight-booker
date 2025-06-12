@@ -1,0 +1,17 @@
+Flight: <%=@booking.flight.departure_airport.name%>--> <%=@booking.flight.arrival_airport.name%>
+
+<%=form_with model: @booking do |form| %>
+<%=form.hidden_field :flight,value:@booking.flight.id%>
+Passengers:
+<ul>
+  <%=form.fields_for :passengers do |passenger_form|%>
+
+    <%=passenger_form.label :name%>
+    <%=passenger_form.text_field :name%>
+    <%=passenger_form.label :email%>
+    <%=passenger_form.email_field :email%>
+    <br>
+  <%end%>
+</ul>
+<%=form.submit "Submit Booking"%>
+<%end%>

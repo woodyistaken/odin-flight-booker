@@ -1,0 +1,10 @@
+Flight: <%=@booking.flight.departure_airport.name%>--> <%=@booking.flight.arrival_airport.name%><%="(#{@booking.flight.start})"%>
+
+<br>
+<br><br>
+Passengers:
+<ul>
+  <%@booking.passengers.each do |passenger|%>
+  <li>Name:<%=passenger.name%><br>Email:<%=passenger.email%></li>
+  <%end%>
+</ul>
