@@ -3,8 +3,11 @@ Flight: <%=@booking.flight.departure_airport.name%>--> <%=@booking.flight.arriva
 <br>
 <br><br>
 Passengers:
-<ul>
-  <%@booking.passengers.each do |passenger|%>
-  <li>Name:<%=passenger.name%><br>Email:<%=passenger.email%></li>
-  <%end%>
-</ul>
+
+  <ul>
+    <%@booking.passengers.each do |passenger|%>
+    <li>Name:<%=passenger.name%><br>Email:<%=passenger.email%></li>
+    <%end%>
+  </ul>
+  
+</div>

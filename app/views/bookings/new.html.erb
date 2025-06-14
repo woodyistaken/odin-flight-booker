@@ -3,7 +3,8 @@ Flight: <%=@booking.flight.departure_airport.name%>--> <%=@booking.flight.arriva
 <%=form_with model: @booking do |form| %>
 <%=form.hidden_field :flight,value:@booking.flight.id%>
 Passengers:
-<ul>
+<div data-controller="passenger" data-passenger-count-value=<%=@booking.passengers.length%>>
+<ul data-passenger-target="list" >
   <%=form.fields_for :passengers do |passenger_form|%>
 
     <%=passenger_form.label :name%>
@@ -12,6 +13,19 @@ Passengers:
     <%=passenger_form.email_field :email%>
     <br>
   <%end%>
+  <div data-passenger-target="container">
+
+  </div>
 </ul>
+<button data-action="passenger#addPassenger" type="button">Add Passenger</button>
+<button data-action="passenger#deletePassenger" type="button">Remove Passenger</button>
+  <template data-passenger-target="template">
+    <label for="nameLabel">Name</label>
+    <input type="text" name="booking[passengers_attributes][0][name]" id="booking_passengers_attributes_0_name" />
+    <label for="emailLabel">Email</label>
+    <input type="email" name="booking[passengers_attributes][0][email]" id="booking_passengers_attributes_0_email" />
+    <br>
+  </template>
+</div>
 <%=form.submit "Submit Booking"%>
 <%end%>
