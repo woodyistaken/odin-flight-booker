@@ -8,10 +8,13 @@ class BookingsController < ApplicationController
     @booking=Booking.new
     book_param=booking_params
     @booking.flight=Flight.find(book_param[:flight])
-    book_param[:passengers_attributes].each_value do |hash|
-      @booking.passengers.build(name: hash[:name], email: hash[:email])
+    book_param[:passengers_attributes].each_value do |passenger|
+      @booking.passengers.build(name: passenger[:name], email: passenger[:email])
     end
     if @booking.save
+      book_param[:passengers_attributes].each_value do |passenger|
+        PassengerMailer.confirm_email(Passenger.new(passenger)).deliver_later
+      end
       redirect_to @booking
     else
       render :new, status: :unprocessable_entity

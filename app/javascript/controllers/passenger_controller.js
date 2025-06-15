@@ -42,7 +42,5 @@ export default class extends Controller {
     this.countValue--
 
   }
-  connect(){
-    console.log("pain")
-  }
+
 }
